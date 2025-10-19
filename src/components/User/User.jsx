@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { followUser, unfollowUser } from '../../actions/UserActions'
+import { getImageUrl } from '../../utils/getImageUrl'
 const User = ({ Person }) => {
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.authReducer.authData)
@@ -12,7 +13,8 @@ const User = ({ Person }) => {
     return (
         <div className="follower">
             <div>
-                <img src={Person.profilePicture ? `${process.env.REACT_APP_API_BASE_URL}/images/` + Person.profilePicture : "https://social-media-app-frontend-azure.vercel.app/images/" + "profile.jpeg"} alt="" className="followerImg" />
+                
+                <img src={Person?.profilePictureId?getImageUrl(Person.profilePictureId): "https://social-media-app-frontend-azure.vercel.app/images/" + "profile.jpeg"} alt="" className="followerImg" />
                 <div className="name">
                     <span>{Person.firstname}</span>
                     <span>{Person.username}</span>

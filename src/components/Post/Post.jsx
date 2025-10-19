@@ -6,6 +6,7 @@ import Heart from "../../img/like.png";
 import NotLike from "../../img/notlike.png";
 import { useSelector } from "react-redux";
 import { likePost } from "../../api/PostsRequests";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 const Post = ({ data }) => {
   const { user } = useSelector(state => state.authReducer.authData);
@@ -22,17 +23,15 @@ const Post = ({ data }) => {
       console.error("Like failed:", err);
     }
   };
-
   useEffect(() => {
     setLiked(data?.likes?.includes(user?._id));
     setLikes(data?.likes?.length || 0);
   }, [data.likes, data._id, user?._id]);
-
   return (
     <div className="Post" key={data?._id}>
-      {data.image && (
+      {data.imageId && (
         <img
-          src={`${process.env.REACT_APP_API_BASE_URL}/images/${data.image}`}
+          src={getImageUrl(data.imageId)}
           alt=""
         />
       )}
