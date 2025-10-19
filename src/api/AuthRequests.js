@@ -1,8 +1,6 @@
-import axios from "axios";
+import { API } from "./API";
 
-const API = axios.create({
-  baseURL: "https://social-media-mern-stack-api-yp4c.vercel.app",
-});
+
 
 export const logIn = (formData) => API.post("/auth/login", formData);
 

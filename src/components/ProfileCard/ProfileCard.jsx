@@ -9,11 +9,12 @@ const ProfileCard = ({ location }) => {
   const { user } = useSelector(state => state.authReducer.authData)
   const posts = useSelector(state => state.postReducer.posts)
 const filteredPosts=posts.filter(post => post.userId === user._id).length
+console.log(' user ===',user)
   return (
     <div className="ProfileCard">
       <div className="ProfileImages">
-        <img src={user.coverPicture ? "http://localhost:3000/images/" + user.coverPicture : "http://localhost:3000/images/" + "cover.jpg"} alt="" />
-        <img src={user.profilePicture ? "http://localhost:3000/images/" + user.profilePicture : "http://localhost:3000/images/" + "profile.jpg"} alt="" />
+        <img src={user.coverPicture ? `${process.env.REACT_APP_API_BASE_URL}/images/` + user.coverPicture : "https://social-media-app-frontend-azure.vercel.app/images/" + "cover.png"} alt="" />
+        <img src={user.profilePicture ? `${process.env.REACT_APP_API_BASE_URL}/images/` + user.profilePicture : "https://social-media-app-frontend-azure.vercel.app/images/" + "profile.jpeg"} alt="" />
       </div>
       <div className="ProfileName">
         <span>{user.firstname} {user.lastname}</span>

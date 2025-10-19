@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { uploadImage } from "../../actions/UploadActions"
 import { updateUser } from "../../actions/UserActions"
+import ImagePicker from "../ImagePicker/ImagePicker";
 
 function ProfileModal({ modalOpened, setModalOpened, data }) {
   const theme = useMantineTheme();
@@ -130,12 +131,30 @@ function ProfileModal({ modalOpened, setModalOpened, data }) {
             value={formData.relationship}
           />
         </div>
-        <div>
+        {/* <div>
           Profile Image
           <input type="file" name="ProfileImage" onChange={onImageChange} />
           Cover Image
           <input type="file" name="CoverImage" onChange={onImageChange} />
-        </div>
+        </div> */}
+
+        <div className="image-picker-wrapper">
+  <ImagePicker
+    label="Profile Image"
+    name="ProfileImage"
+    type="profile"
+    image={profileImage}
+    onChange={onImageChange}
+  />
+
+  <ImagePicker
+    label="Cover Image"
+    name="CoverImage"
+    type="cover"
+    image={coverImage}
+    onChange={onImageChange}
+  />
+</div>
 
         <button type="submit" className="button infoButton" onClick={handleSubmit}>Update</button>
       </form>

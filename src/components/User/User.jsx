@@ -12,7 +12,7 @@ const User = ({ Person }) => {
     return (
         <div className="follower">
             <div>
-                <img src={Person.profilePicture ? "http://localhost:3000/images/" + Person.profilePicture : "http://localhost:3000/images/" + Person.profilePicture} alt="" className="followerImg" />
+                <img src={Person.profilePicture ? `${process.env.REACT_APP_API_BASE_URL}/images/` + Person.profilePicture : "https://social-media-app-frontend-azure.vercel.app/images/" + "profile.jpeg"} alt="" className="followerImg" />
                 <div className="name">
                     <span>{Person.firstname}</span>
                     <span>{Person.username}</span>

@@ -11,18 +11,15 @@ import { uploadImage, uploadPost } from "./../../actions/UploadActions";
 const PostShare = () => {
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
-  console.log(image?.image);
   const user = useSelector((state) => {
     return state?.authReducer?.authData;
   });
   const loading = useSelector((state) => {
     return state?.postReducer?.uploading;
   });
-  console.log("loading", loading);
-  console.log("user", user);
+
   const imageRef = useRef();
   const desc = useRef();
-  console.log(desc?.current?.value);
   const resetShare=()=>{
     setImage(null)
     desc.current.value=""
@@ -40,7 +37,6 @@ const PostShare = () => {
       userId: user?.user._id,
       desc: desc.current.value,
     };
-    console.log(" user._id", user?.user._id);
     if (image) {
       const data = new FormData();
       const fileName = Date.now() + image.name;
@@ -55,12 +51,12 @@ const PostShare = () => {
         console.log(err);
       }
     }
-    dispatch(uploadPost(newPost));
+    dispatch(uploadPost(newPost,user?.user._id));
     resetShare();
   };
   return (
     <div className="PostShare">
-      <img src={user.coverPicture ? "http://localhost:3000/images/" + user.coverPicture : "http://localhost:3000/images/" + "profile.jpg"}  alt="" />
+      <img src={user?.user?.coverPicture ? `${process.env.REACT_APP_API_BASE_URL}/images/` + user?.user?.coverPicture : "https://social-media-app-frontend-azure.vercel.app/images/" + "profile.jpeg"}  alt="" />
       <div>
         <input type="text" placeholder="What's happening" ref={desc} />
         <div className="postOptions">
