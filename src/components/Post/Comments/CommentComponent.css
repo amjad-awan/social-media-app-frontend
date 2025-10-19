@@ -1,0 +1,133 @@
+.comment-box {
+  margin-top: 10px;
+  padding: 12px;
+  background: var(--cardColor);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+
+/* comment list */
+.comment-list {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.comment-item {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.comment-username {
+  font-weight: bold;
+  color: var(--black);
+}
+
+.comment-text {
+  color: var(--gray);
+}
+
+/* input area */
+.comment-input-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--inputColor);
+  outline: none;
+}
+
+.comment-btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.comment-item {
+  display: flex;
+  /* align-items: center; */
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.comment-user-img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-content {
+  background: #f3f3f3;
+  padding: 6px 10px;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  flex-direction: column;
+}
+
+.comment-username {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.delete-comment-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 14px;
+}
+.delete-comment-btn:hover {
+  opacity: 0.6;
+}
+
+
+
+.emoji-btn {
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.emoji-wrapper {
+  position: absolute;
+  bottom: 50px;
+  z-index: 20;
+}
+
+.comment-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 8px;
+}
+.emoji-wrapper {
+  position: absolute;
+  bottom: 55px;
+  left: 10px;
+  z-index: 50;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.comment-input-wrapper {
+  position: relative; /* IMPORTANT so emoji picker anchors to this box */
+}
+
+
+

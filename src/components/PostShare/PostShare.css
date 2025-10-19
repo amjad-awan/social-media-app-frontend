@@ -20,13 +20,24 @@
 	gap: 1rem;
 	width: 90%;
 }
-.PostShare>div>input{
+.PostShare .input{
 	background: var(--inputColor);
 	border: none;
 	border-radius: 10px;
 	font-size: 17px;
 	padding: 10px;
 	outline: none;
+	display: flex;
+}
+.PostShare .input input{
+background:transparent;
+	border: none;
+	border-radius: 10px;
+	font-size: 17px;
+	/* padding: 10px; */
+	outline: none;
+	display: flex;
+	width: 100%;
 }
 
 .postOptions

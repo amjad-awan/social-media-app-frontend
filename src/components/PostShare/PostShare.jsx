@@ -1,22 +1,29 @@
 import React, { useState, useRef } from "react";
 import "./PostShare.css";
-import { UilScenery, UilPlayCircle, UilLocationPoint, UilSchedule, UilTimes } from "@iconscout/react-unicons";
+import {
+  UilScenery,
+  UilPlayCircle,
+  UilLocationPoint,
+  UilSchedule,
+  UilTimes,
+} from "@iconscout/react-unicons";
 import { useSelector, useDispatch } from "react-redux";
 import { uploadPost } from "../../actions/UploadActions";
 import { getImageUrl } from "../../utils/getImageUrl";
+import EmojiPickerComponent from "../EmojiPickerComponent/EmojiPickerComponent";
 
 const PostShare = () => {
   const [image, setImage] = useState(null);
+  const [text, setText] = useState(""); // ✅ controlled input for emojis
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.authReducer?.authData?.user);
   const loading = useSelector((state) => state?.postReducer?.uploading);
 
   const imageRef = useRef();
-  const desc = useRef();
 
   const resetShare = () => {
     setImage(null);
-    desc.current.value = "";
+    setText(""); // ✅ clear input
   };
 
   const onImageChange = (e) => {
@@ -27,34 +34,49 @@ const PostShare = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const formData = new FormData();
       formData.append("userId", user._id);
-      formData.append("desc", desc.current.value);
+      formData.append("desc", text); // ✅ send emoji text
+
       if (image) formData.append("file", image);
 
-      await dispatch(uploadPost(formData)); // Upload post including image
+      await dispatch(uploadPost(formData));
       resetShare();
     } catch (err) {
       console.log(err);
     }
   };
 
+  // ✅ Append emoji to input
+  const onEmojiSelect = (emoji) => {
+    setText((prev) => prev + emoji);
+  };
+
   return (
     <div className="PostShare">
       <img
-        // src={
-        //   user?.profilePictureId
-        //     ? `${process.env.REACT_APP_API_BASE_URL}/image/${user.profilePictureId}`
-        //     : "/images/profile.jpeg"
-        // }
-
-        src={user?.profilePictureId?getImageUrl(user.profilePictureId): "https://social-media-app-frontend-azure.vercel.app/images/" + "profile.jpeg"}
+        src={
+          user?.profilePictureId
+            ? getImageUrl(user.profilePictureId)
+            : "https://social-media-app-frontend-azure.vercel.app/images/profile.jpeg"
+        }
         alt=""
       />
+
       <div>
-        <input type="text" placeholder="What's happening?" ref={desc} />
+        <div className="input">
+          <EmojiPickerComponent onEmojiSelect={onEmojiSelect} />
+
+          {/* ✅ Use value + onChange instead of ref */}
+          <input
+            type="text"
+            placeholder="What's happening?"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+        </div>
+
         <div className="postOptions">
           <div
             className="option"
@@ -72,6 +94,7 @@ const PostShare = () => {
           <div className="option" style={{ color: "var(--shedule)" }}>
             <UilSchedule /> Schedule
           </div>
+
           <button
             className="button ps-button"
             onClick={handleSubmit}
@@ -79,6 +102,7 @@ const PostShare = () => {
           >
             {loading ? "Uploading..." : "Share"}
           </button>
+
           <input
             type="file"
             ref={imageRef}
@@ -86,6 +110,7 @@ const PostShare = () => {
             style={{ display: "none" }}
           />
         </div>
+
         {image && (
           <div className="previewImage">
             <UilTimes onClick={() => setImage(null)} />

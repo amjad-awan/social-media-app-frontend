@@ -4,13 +4,15 @@ import "./Posts.css"
 import Post from '../Post/Post'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { getTimelinePosts } from '../../actions/PostsActions'
+import { getTimelinePosts, deletePostFromStore } from "../../actions/PostsActions";
 import { useState } from 'react'
 const Posts = () => {
 	const dispatch = useDispatch()
 	const { user } = useSelector(state => state.authReducer.authData)
 	const { posts, loading } = useSelector(state => state.postReducer)
 	console.log("posts", posts)
+
+
 	useEffect(() => {
 		dispatch(getTimelinePosts(user._id))
 	}, [])
@@ -20,7 +22,7 @@ const Posts = () => {
 			{
 				loading ? "Fetching Posts...." :
 					posts.map((post, id) => {
-						return <Post data={post} id={id} />
+						return <Post data={post} id={id}  />
 					})
 			}
 		</div>

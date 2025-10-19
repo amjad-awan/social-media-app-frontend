@@ -23,6 +23,11 @@ const postReducer = (
       return { ...state, posts: action.data, loading: false, error: false };
     case "RETREIVING_FAIL":
       return { ...state, loading: false, error: true };
+    case "DELETE_POST":
+      return {
+        ...state,
+        posts: state.posts.filter((p) => p._id !== action.data),
+      };
     default:
       return state;
   }

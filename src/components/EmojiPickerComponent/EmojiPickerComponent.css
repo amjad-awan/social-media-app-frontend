@@ -1,0 +1,25 @@
+.emoji-component-wrapper {
+  position: relative;
+}
+
+.emoji-btn {
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
+  transition: 0.2s;
+}
+
+.emoji-btn:hover {
+  transform: scale(1.2);
+}
+
+
+.emoji-wrapper-below {
+  position: absolute;
+  top: 35px; /* 👈 pushes emoji picker BELOW the emoji icon */
+  left: 0;
+  z-index: 50;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}

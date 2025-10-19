@@ -8,6 +8,9 @@
 	background-color: var(--cardColor);
 }
 
+
+
+
 .Post>img
 {
 	width: 100%;
@@ -20,4 +23,11 @@
 	display: flex;
 	justify-content: flex-start;
 	gap: 1.5rem;
+}
+
+.commentCount{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3px;
 }

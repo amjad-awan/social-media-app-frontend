@@ -1,0 +1,66 @@
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.post-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.post-user-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-username {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.post-time {
+  font-size: 11px;
+  color: gray;
+}
+
+/* 3 Dot + Modal */
+.post-menu-wrapper {
+  position: relative;
+}
+
+.three-dots {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.post-dropdown {
+  position: absolute;
+  right: 0;
+  top: 20px;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 6px 20px;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.post-dropdown p {
+  margin: 0;
+}
+
+.post-dropdown p:hover {
+  color: red;
+  font-weight: 600;
+}
