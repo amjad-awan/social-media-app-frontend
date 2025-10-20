@@ -1,25 +1,14 @@
-.emoji-component-wrapper {
-  position: relative;
-}
-
 .emoji-btn {
+  font-size: 22px;
   cursor: pointer;
-  font-size: 20px;
-  margin-right: 10px;
-  transition: 0.2s;
+  background: transparent;
+  border: none;
 }
 
-.emoji-btn:hover {
-  transform: scale(1.2);
-}
-
-
-.emoji-wrapper-below {
+.emoji-portal-popup {
   position: absolute;
-  top: 35px; /* 👈 pushes emoji picker BELOW the emoji icon */
-  left: 0;
-  z-index: 50;
+  z-index: 99999;
   background: white;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }

@@ -12,3 +12,9 @@ export const unfollowUser = (id, data) => {
   console.log("followUser id", id);
   return API.put(`/user/${id}/unfollow`, data);
 };
+
+// -------------------- New function --------------------
+// Get all followers/following contacts for a user
+export const getUserContacts = (userId) => {
+  return API.get(`/user/contacts/${userId}`);
+};

@@ -5,19 +5,7 @@
 	gap: 2rem;
 }
 
-.navIcon{
-	margin-top: 1rem;
-	display: flex;
-	justify-content: space-between;
-}
-.navIcon>img{
-	height: 1.5rem;
-	width: 1.5rem;
-}
-.navIcon>a>img{
-	height: 1.5rem;
-	width: 1.5rem;
-}
+
 .r-button
 {
 	width: 80%;
