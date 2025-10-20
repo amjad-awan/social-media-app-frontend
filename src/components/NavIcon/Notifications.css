@@ -1,0 +1,65 @@
+.noti-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 10px;
+  width: 260px;
+  height: 300px;
+  overflow: hidden;
+  background: rgb(255, 255, 255);
+  /* backdrop-filter: blur(10px); */
+  border-radius: 12px;
+  padding: 10px;
+   padding-bottom: 30px;
+  color: white;
+  z-index: 9;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.noti-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.2);
+  color: black;
+}
+.noti-main{
+  height: 100%;
+  overflow: auto;
+ 
+}
+.close-btn {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.noti-item {
+  margin: 10px 0;
+  font-size: 14px;
+  color: black;
+    border-radius: 8px;
+  padding: 5px 10px;
+}
+
+.noti-item:hover {
+  background-color: #e6f2ff; /* lighter hover for all items */
+}
+
+.noti-item.read {
+  background-color: #ffffff; /* read notifications background */
+}
+
+.noti-item.unread {
+  background-color: #cce4ff8f; /* blueish background for unread */
+
+}
+
+.time { 
+  opacity: 0.7;
+  font-size: 12px;
+}
+
+.empty {
+  text-align: center;
+  opacity: 0.7;
+  color: black;
+}

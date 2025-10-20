@@ -1,0 +1,31 @@
+.chat-header-window {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+}
+
+.receiver-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.receiver-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.receiver-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.receiver-status {
+  font-size: 13px;
+  color: gray;
+  margin-top: 2px;
+}

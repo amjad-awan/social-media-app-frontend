@@ -15,7 +15,7 @@ const Post = ({ data }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
   const [liked, setLiked] = useState(data?.likes?.includes(user?._id));
   const [likes, setLikes] = useState(data?.likes?.length || 0);
-  const [showComments, setShowComments] = useState(false);
+  const [showComments, setShowComments] = useState(true);
   const dispatch = useDispatch();
   const handleLike = async () => {
     const newLiked = !liked;

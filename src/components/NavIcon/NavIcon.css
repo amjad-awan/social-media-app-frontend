@@ -1,0 +1,50 @@
+.navIcon{
+	margin-top: 1rem;
+	display: flex;
+	justify-content: space-between;
+}
+.navIcon>img{
+	height: 1.5rem;
+	width: 1.5rem;
+    cursor: pointer;
+}
+.navIcon>a>img{
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+.notification-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+
+.noti-badge {
+  position: absolute;
+  top: -12px;
+  right: -5px;
+  background: linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%);
+  color: white;
+  width: 24px;        /* Recommended to fit the badge text */
+  height: 24px;       /* Keep it circular */
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  line-height: 1;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Notifications dropdown styles */
+.noti-item.unread {
+  background-color: #e0f2ff; /* light blue for unread */
+}
+.noti-item.read {
+  background-color: transparent;
+}
+
+

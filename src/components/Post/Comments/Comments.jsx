@@ -69,6 +69,7 @@ const CommentComponent = ({ postId }) => {
               <button
                 className="delete-comment-btn"
                 onClick={() => handleDeleteComment(c._id)}
+             
               >
                 🗑️
               </button>
@@ -91,7 +92,7 @@ const CommentComponent = ({ postId }) => {
           onChange={(e) => setText(e.target.value)}
           className="comment-input"
         />
-        <button className="button comment-btn" onClick={handleAddComment}>
+        <button className="button comment-btn"    disabled={!text} onClick={handleAddComment}>
           Post
         </button>
       </div>
