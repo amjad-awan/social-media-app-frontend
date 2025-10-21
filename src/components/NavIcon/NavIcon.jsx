@@ -34,10 +34,8 @@ const NavIcon = () => {
   // Listen for incoming notifications
   useEffect(() => {
     if (!socket) return;
-    
 
     socket.on("newNotification", (notification) => {
-        console.log('notification',notification)
       setNotifications((prev) => [notification, ...prev]);
     });
 
@@ -48,7 +46,9 @@ const NavIcon = () => {
 
   return (
     <div className="navIcon">
-      <Link to="../home"><img src={Home} alt="" /></Link>
+      <Link to="../home">
+        <img src={Home} alt="" />
+      </Link>
       <UilSetting />
 
       <div className="notification-icon-wrapper" onClick={() => setOpen(!open)}>
@@ -56,8 +56,10 @@ const NavIcon = () => {
         {unreadCount > 0 && <span className="noti-badge">{unreadCount}</span>}
       </div>
 
-  <Link to="/chat">  <img src={Comment} alt="comments" /></Link>
-    
+      <Link to="/chat">
+        {" "}
+        <img src={Comment} alt="comments" />
+      </Link>
 
       <Notifications
         open={open}
