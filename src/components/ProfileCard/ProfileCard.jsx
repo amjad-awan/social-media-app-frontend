@@ -26,12 +26,12 @@ return (
         <hr />
         <div>
           <div className="follow">
-            <span>{user.following.length}</span>
+            <span>{user?.following?.length}</span>
             <span>Following</span>
           </div>
           <div className="vl"></div>
           <div className="follow">
-            <span>{user.followers.length}</span>
+            <span>{user?.followers?.length}</span>
             <span>Followers</span>
           </div>
           {location === "profilePage" && (
@@ -47,7 +47,7 @@ return (
         <hr />
       </div>
       {location === "profilePage" ? '' : <span>
-        <Link style={{ textDecoration: "none", color: "inherit" }} to={`/profile/${user._id}`}>My Profile</Link>
+        <Link style={{ textDecoration: "none", color: "inherit" }} to={`/profile/${user?._id}`}>My Profile</Link>
       </span>}
     </div>
   );
