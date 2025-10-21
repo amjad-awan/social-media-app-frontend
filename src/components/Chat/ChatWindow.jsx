@@ -12,7 +12,6 @@ const ChatWindow = ({ chat,setTypingChatId, messages, socket, onSend }) => {
     if (!socket || !chat) return;
 
     socket.on("typing", ({ chatId }) => {
-        console.log(' chatId ==========',chatId)
         setTypingChatId(chatId)
       if (chatId === chat._id) setIsTyping(true);
     });
@@ -34,24 +33,9 @@ const ChatWindow = ({ chat,setTypingChatId, messages, socket, onSend }) => {
   }
 
   const receiver = chat?.members?.find((m) => m._id !== chat.currentUser);
-console.log('receiver',receiver,chat)
   return (
     <div className="chat-window">
-      {/* Chat Header */}
-      {/* <div className="chat-header-window">
-        <img
-          src={
-            receiver?.profilePictureId
-              ? getImageUrl(receiver?.profilePictureId)
-              : "https://social-media-app-frontend-azure.vercel.app/images/profile.jpeg"
-          }
-          alt={receiver?.username}
-          className="receiver-avatar"
-        />
-        <span className="receiver-name">
-          {receiver ? `${receiver.firstname} ${receiver.lastname}` : "Unknown"}
-        </span>
-      </div> */}
+   
       <ChatHeader receiver={receiver} />
 
 

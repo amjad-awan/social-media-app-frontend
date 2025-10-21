@@ -4,6 +4,7 @@ import UserDropdown from "./UserDropdown/UserDropdown";
 import { getUserContacts } from "../../api/UserRequest";
 import { createChat } from "../../api/chatRequest";
 import { getImageUrl } from "../../utils/getImageUrl";
+import { LuPackageOpen } from "react-icons/lu";
 
 const ChatList = ({
   chats,
@@ -11,42 +12,41 @@ const ChatList = ({
   activeChat,
   setActiveChat,
   currentUserId,
-  socket
+  socket,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
 
   // ✅ SOCKET: Online / Offline updates
-  useEffect(() => {
-    if (!socket) return;
+  // useEffect(() => {
+  //   if (!socket) return;
 
-    socket.on("userOnline", ({ userId }) => {
-      setChats(prev =>
-        prev.map(chat =>
-          chat.receiverId === userId || chat.senderId === userId
-            ? { ...chat, isOnline: true, lastSeen: null }
-            : chat
-        )
-      );
-    });
+  //   socket.on("userOnline", ({ userId }) => {
+  //     setChats(prev =>
+  //       prev.map(chat =>
+  //         chat.receiverId === userId || chat.senderId === userId
+  //           ? { ...chat, isOnline: true, lastSeen: null }
+  //           : chat
+  //       )
+  //     );
+  //   });
 
-    socket.on("userOffline", ({ userId, lastSeen }) => {
-      setChats(prev =>
-        prev.map(chat =>
-          chat.receiverId === userId || chat.senderId === userId
-            ? { ...chat, isOnline: false, lastSeen }
-            : chat
-        )
-      );
-    });
+  //   socket.on("userOffline", ({ userId, lastSeen }) => {
+  //     setChats(prev =>
+  //       prev.map(chat =>
+  //         chat.receiverId === userId || chat.senderId === userId
+  //           ? { ...chat, isOnline: false, lastSeen }
+  //           : chat
+  //       )
+  //     );
+  //   });
 
-    return () => {
-      socket.off("userOnline");
-      socket.off("userOffline");
-    };
-  }, [socket, setChats]);
+  //   return () => {
+  //     socket.off("userOnline");
+  //     socket.off("userOffline");
+  //   };
+  // }, [socket, setChats]);
 
-  // ✅ Fetch dropdown users
   useEffect(() => {
     if (!dropdownOpen) return;
     const fetchContacts = async () => {
@@ -80,39 +80,81 @@ const ChatList = ({
     <div className="chat-list">
       <div className="chat-header">
         Chats
-        <button className="plus-button" onClick={() => setDropdownOpen(prev => !prev)}>
+        <button
+          className="plus-button"
+          onClick={() => setDropdownOpen((prev) => !prev)}
+        >
           +
         </button>
       </div>
 
-      {dropdownOpen && <UserDropdown users={contacts} onSelectUser={handleSelectUser} />}
+      {dropdownOpen && (
+        <UserDropdown users={contacts} onSelectUser={handleSelectUser} />
+      )}
+  {/* ✅ Empty State */}
+  {(!chats || chats.length === 0) && (
+    <div className="empty-chat-list">
+      {/* <img src="/images/empty-chat.png" alt="no chats" /> */}
+      <LuPackageOpen />
 
-      {chats.map((chat) => (
-        <div
-          key={chat._id}
-          className={`chat-list-item ${activeChat?._id === chat._id ? "active" : ""}`}
-          onClick={() => setActiveChat(chat)}
-        >
-          <div className="chat-avatar-wrapper">
-            <img
-              src={chat?.profilePictureId ? getImageUrl(chat?.profilePictureId) : "/images/profile.jpeg"}
-              alt="profile"
-              className="chat-avatar"
-            />
-            {chat.isOnline ? <span className="online-dot"></span> : <span className="offline-dot"></span>}
-          </div>
+      <h4>No chats yet</h4>
+      <p>Start a new conversation</p>
+    </div>
+  )}
+      {chats.map((chat) => {
+        const receiver = chat?.members?.find((m) => m._id !== currentUserId);
+        return (
+          <div
+            key={chat._id}
+            className={`chat-list-item ${
+              activeChat?._id === chat._id ? "active" : ""
+            }`}
+            onClick={() => {
+              setActiveChat(chat);
+              setChats((prevChats) =>
+                prevChats.map((c) =>
+                  c._id === chat._id ? { ...c, unreadCount: 0 } : c
+                )
+              );
+            }}
+          >
+            <div className="chat-avatar-wrapper">
+              <img
+                src={
+                  chat?.profilePictureId
+                    ? getImageUrl(chat?.profilePictureId)
+                    : "/images/profile.jpeg"
+                }
+                alt="profile"
+                className="chat-avatar"
+              />
+              {receiver.isOnline ? (
+                <span className="online-dot"></span>
+              ) : (
+                <span className="offline-dot"></span>
+              )}
+            </div>
 
-          <div className="chat-info">
-            <strong>{chat.firstname} {chat.lastname}</strong>
-            <p className="last-message">
-              {chat.isTyping ? "Typing..." :
-                chat.isOnline ? "Online" :
-                chat.lastSeen ? `last seen: ${new Date(chat.lastSeen).toLocaleTimeString()}` :
-                chat.lastMessage || ""}
-            </p>
+            <div className="chat-info">
+              <strong>
+                {chat.firstname} {chat.lastname}
+              </strong>
+              <p className="last-message">
+                {receiver.isTyping
+                  ? "Typing..."
+                  : !receiver.isOnline && receiver.lastSeen
+                  ? `last seen: ${new Date(
+                      receiver.lastSeen
+                    ).toLocaleTimeString()}`
+                  : chat.lastMessage || ""}
+              </p>
+              {chat.unreadCount > 0 && (
+                <span className="unread-badge">{chat.unreadCount}</span>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

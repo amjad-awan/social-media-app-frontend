@@ -9,6 +9,7 @@ import {
   sendMessage,
 } from "../../api/chatRequest";
 import useSocket from "../../socket/useSocket";
+import { updateOnlineStatus } from "../../utils/chat";
 
 const ChatContainer = () => {
   const { user } = useSelector((state) => state.authReducer.authData);
@@ -18,7 +19,7 @@ const ChatContainer = () => {
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  console.log("typingChatId", chats);
+  console.log("chats====", chats);
   const socket = useSocket(currentUserId);
 
   // Fetch user's chats
@@ -42,6 +43,7 @@ const ChatContainer = () => {
               otherMember.profilePictureId?.url || "/img/default.jpg",
             lastMessage: chat.lastMessage || "",
             members: chat.members,
+            unreadCount: 0, // 👈 add this
           };
         });
 
@@ -55,41 +57,40 @@ const ChatContainer = () => {
     fetchChats();
   }, [currentUserId]);
 
+  useEffect(() => {
+    if (!socket) return;
 
-  // ✅ Listen Online / Offline Users
-useEffect(() => {
-  if (!socket) return;
+    socket.on("userOnline", ({ userId }) => {
+      setChats((prevChats) => {
+        const { updatedChats, updatedActiveChat } = updateOnlineStatus(
+          prevChats,
+          activeChat,
+          userId,
+          { isOnline: true, lastSeen: null }
+        );
+        setActiveChat(updatedActiveChat);
+        return updatedChats;
+      });
+    });
 
-  socket.on("userOnline", ({ userId }) => {
-    setChats((prevChats) =>
-      prevChats.map((chat) => {
-        const receiver = chat.members.find((m) => m._id !== currentUserId);
-        if (receiver?._id === userId) {
-          return { ...chat, isOnline: true };
-        }
-        return chat;
-      })
-    );
-  });
+    socket.on("userOffline", ({ userId, lastSeen }) => {
+      setChats((prevChats) => {
+        const { updatedChats, updatedActiveChat } = updateOnlineStatus(
+          prevChats,
+          activeChat,
+          userId,
+          { isOnline: false, lastSeen }
+        );
+        setActiveChat(updatedActiveChat);
+        return updatedChats;
+      });
+    });
 
-  socket.on("userOffline", ({ userId, lastSeen }) => {
-    setChats((prevChats) =>
-      prevChats.map((chat) => {
-        const receiver = chat.members.find((m) => m._id !== currentUserId);
-        if (receiver?._id === userId) {
-          return { ...chat, isOnline: false, lastSeen };
-        }
-        return chat;
-      })
-    );
-  });
-
-  return () => {
-    socket.off("userOnline");
-    socket.off("userOffline");
-  };
-}, [socket, currentUserId]);
-
+    return () => {
+      socket.off("userOnline");
+      socket.off("userOffline");
+    };
+  }, [socket, activeChat]);
 
   useEffect(() => {
     if (activeChat?._id === typingChatId) return;
@@ -126,22 +127,30 @@ useEffect(() => {
     if (!socket) return;
 
     socket.on("newMessage", (message) => {
-      // Only add if message belongs to current chat
+      setChats((prevChats) =>
+        prevChats.map((c) => {
+          if (c._id === message.chatId) {
+            return {
+              ...c,
+              lastMessage: message.text,
+              unreadCount:
+                activeChat && activeChat._id === message.chatId
+                  ? 0 // current chat → reset
+                  : (c.unreadCount || 0) + 1, // other chat → increment
+            };
+          }
+          return c;
+        })
+      );
+
+      // If message belongs to currently open chat → push to message list
       if (activeChat && message.chatId === activeChat._id) {
         setMessages((prev) => [...prev, message]);
       }
-
-      // Optionally update lastMessage in chat list
-      setChats((prevChats) =>
-        prevChats.map((c) =>
-          c._id === message.chatId ? { ...c, lastMessage: message.text } : c
-        )
-      );
     });
-    setTypingChatId(null);
+
     return () => socket.off("newMessage");
   }, [socket, activeChat]);
-
   // Send message
   const handleSend = async (text) => {
     if (!activeChat) return;
@@ -165,7 +174,6 @@ useEffect(() => {
     // 3️⃣ Update local state
     // setMessages((prev) => [...prev, { ...newMsg, _id: Date.now() }]);
   };
-
   return (
     <div className="chat-container">
       <ChatList
@@ -175,13 +183,19 @@ useEffect(() => {
         setActiveChat={setActiveChat}
         currentUserId={currentUserId}
       />
-      <ChatWindow
-        chat={{ ...activeChat, currentUser: currentUserId }}
-        messages={messages}
-        onSend={handleSend}
-        socket={socket}
-        setTypingChatId={setTypingChatId}
-      />
+      {activeChat ? (
+        <ChatWindow
+          chat={{ ...activeChat, currentUser: currentUserId }}
+          messages={messages}
+          onSend={handleSend}
+          socket={socket}
+          setTypingChatId={setTypingChatId}
+        />
+      ) : (
+        <div className="empty-messages-box">
+          <p>Start messaging your contacts</p>
+        </div>
+      )}
     </div>
   );
 };

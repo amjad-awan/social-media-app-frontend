@@ -3,11 +3,12 @@
   cursor: pointer;
   background: transparent;
   border: none;
+  /* margin-top: 7px; */
 }
 
 .emoji-portal-popup {
   position: absolute;
-  z-index: 99999;
+  z-index: 9999999999999999999999999;
   background: white;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   border-radius: 10px;

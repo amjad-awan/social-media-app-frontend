@@ -11,7 +11,6 @@ const useSocket = (userId) => {
 
     const newSocket = io(SOCKET_URL, {
       transports: ["websocket"],
-      withCredentials: true,   // ✅ required for CORS + cookies
     });
 
     setSocket(newSocket);
