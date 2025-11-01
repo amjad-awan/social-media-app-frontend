@@ -6,6 +6,8 @@ import Home from "./pages/home/Home";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Chat from "./pages/chat/chat";
+import ResetPassword from "./pages/resetPassword/ResetPassword";
+import ForgotPassword from "./pages/forgotPassword/ForgotPassword";
 function App() {
   const user = useSelector((state) => {
     return state?.authReducer?.authData;
@@ -28,7 +30,14 @@ function App() {
           path="/chat"
           element={user ? <Chat /> : <Navigate to="../auth" />}
         />
-        
+         <Route
+          path="/reset-password/:token"
+          element={<ResetPassword/>}
+        />
+          <Route
+          path="/forgot-password"
+          element={<ForgotPassword/>}
+        />
         <Route
           path="/auth"
           element={user ? <Navigate to="../home" /> : <Auth />}

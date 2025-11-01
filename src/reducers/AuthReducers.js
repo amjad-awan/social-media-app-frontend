@@ -16,7 +16,8 @@ const authReducer = (
       return { ...state, authData: action.data, loading: false, error: false };
 
     case "AUTH_FAIL":
-      return { ...state, loading: false, error: true };
+      console.log('action =========',action)
+      return { ...state, loading: false, error: action.error };
     case "UPDATING_START":
       return { ...state, updateLoading: true, error: false };
     case "UPDATING_SUCCESS":
@@ -32,7 +33,6 @@ const authReducer = (
       return {...state, updateLoading: true, error: true};
 
     case "LOG_OUT":
-      console.log("here")
       localStorage.clear();
       return {
         ...state,
